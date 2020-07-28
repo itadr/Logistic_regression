@@ -1,0 +1,2 @@
+# Logistic_regression
+Stochastic Gradient Descentによるロジスティック回帰の実装
