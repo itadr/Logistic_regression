@@ -45,9 +45,11 @@ void logistic_regression::fit(const std::vector<std::vector<double>>& x_train,
   int current_order = data_num, next_order;
 
   for (int i = 0; i < max_iteration; i++) {
-    fill(params_grad.begin(), params.end(), 0);
+    // initialize params grad to 0
+    fill(params_grad.begin(), params_grad.end(), 0);
+    // decide which data is used in this iteration
     next_order = current_order + batch_size;
-    // shuffling data is necessary
+    // if shuffling data is necessary
     if (next_order >= data_num) {
       for (int j = current_order; j < data_num; j++) {
         const double exp_xw = exp(linear_prediction(x_train[data_order[j]]));
