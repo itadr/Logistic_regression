@@ -13,7 +13,7 @@ and log likelihood with L2 regularization _l_ is
 
 ![logl](./figures/eq5.png ) .
 
-We want to find _**w**_ that maximize _l_. Gradient descent can be used.
+We want to find _**w**_ that maximize _l_ (minimize const function). Gradient ascent (descent) can be used.
 
 ![logl](./figures/eq7.png ) 
 
