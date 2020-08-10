@@ -1,5 +1,16 @@
 # Logistic_regression
 Stochastic Gradient Descentによるロジスティック回帰の実装
+
+## Result
+### Different batch size
+![r1](./figures/epoch_error_batch.png )
+![r2](./figures/iter_error_batch.png )
+![r3](./figures/iter_error_batch_.png )
+
+### Different learning rate
+![r4](./figures/epoch_error_rate.png )
+![r5](./figures/epoch_error_rate_lim.png )
+
 ## Note
 In logistic regression, the probability that y=0 is estimated by
 
