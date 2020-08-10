@@ -12,6 +12,8 @@ class logistic_regression {
 
  public:
   logistic_regression() {}
+  void train_one_data(const std::vector<double>& x, const double y,
+                      std::vector<double>& params_grad, const int params_num);
   void fit(const std::vector<std::vector<double>>& x_train,
            const std::vector<double>& y_train, const int batch_size,
            const double learning_rate, const int max_iteration,
@@ -23,7 +25,16 @@ class logistic_regression {
   double predict_proba(const std::vector<double>& x);
   double log_loss(const std::vector<double>& x, const double y);
 };
-
+void logistic_regression::train_one_data(const std::vector<double>& x,
+                                         const double y,
+                                         std::vector<double>& params_grad,
+                                         const int params_num) {
+  const double exp_xw = exp(linear_prediction(x));
+  const double train_coeff = y - exp_xw / (1 + exp_xw);
+  for (int k = 0; k < params_num; k++) {
+    params_grad[k] += train_coeff * x[k];
+  }
+}
 void logistic_regression::fit(const std::vector<std::vector<double>>& x_train,
                               const std::vector<double>& y_train,
                               const int batch_size, const double learning_rate,
@@ -52,34 +63,19 @@ void logistic_regression::fit(const std::vector<std::vector<double>>& x_train,
     // if shuffling data is necessary
     if (next_order >= data_num) {
       for (int j = current_order; j < data_num; j++) {
-        const double exp_xw = exp(linear_prediction(x_train[data_order[j]]));
-        const double train_coeff =
-            y_train[data_order[j]] - exp_xw / (1 + exp_xw);
-        for (int k = 0; k < params_num; k++) {
-          params_grad[k] += train_coeff * x_train[data_order[j]][k];
-        }
+        train_one_data(x_train[j], y_train[j], params_grad, params_num);
       }
-      // shuffle data 
+      // shuffle data
       std::shuffle(data_order.begin(), data_order.end(), engine);
       next_order -= data_num;
       for (int j = 0; j < next_order; j++) {
-        const double exp_xw = exp(linear_prediction(x_train[data_order[j]]));
-        const double train_coeff =
-            y_train[data_order[j]] - exp_xw / (1 + exp_xw);
-        for (int k = 0; k < params_num; k++) {
-          params_grad[k] += train_coeff * x_train[data_order[j]][k];
-        }
+        train_one_data(x_train[j], y_train[j], params_grad, params_num);
       }
     }
-    // shuffling data is not necessary
+    // if shuffling data is not necessary
     else {
       for (int j = current_order; j < next_order; j++) {
-        const double exp_xw = exp(linear_prediction(x_train[data_order[j]]));
-        const double train_coeff =
-            y_train[data_order[j]] - exp_xw / (1 + exp_xw);
-        for (int k = 0; k < params_num; k++) {
-          params_grad[k] += train_coeff * x_train[data_order[j]][k];
-        }
+        train_one_data(x_train[j], y_train[j], params_grad, params_num);
       }
     }
     for (int k = 0; k < params_num; k++) {
