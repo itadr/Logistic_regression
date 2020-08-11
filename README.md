@@ -1,6 +1,5 @@
 # Logistic_regression
-Stochastic Gradient Descentによるロジスティック回帰の実装
-
+Logistic Regression from scratch using Stochastic Gradient Descent
 ## Result
 ### Different batch size
 ![r1](./figures/epoch_error_batch.png )
@@ -20,7 +19,7 @@ Likelihood _L_ is
 
 ![likelihood](./figures/eq4.png ) ,
 
-and log likelihood with L2 regularization _l_ is
+and log likelihood with L2 regularization is
 
 ![logl](./figures/eq5.png ) .
 
